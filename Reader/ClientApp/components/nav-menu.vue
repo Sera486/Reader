@@ -1,4 +1,4 @@
-﻿<template>
+<template>
     <div class="main-nav">
         <div class="navbar navbar-inverse">
             <div class="navbar-header">
