@@ -11,6 +11,12 @@
   <ItemGroup>
     <!-- Files not to show in IDE -->
     <None Remove=".gitignore" />
+    <None Remove="ClientApp\components\desktop.ini" />
+    <None Remove="ClientApp\less\desktop.ini" />
+    <None Remove="ClientApp\store\desktop.ini" />
+    <None Remove="DataBase\desktop.ini" />
+    <None Remove="Models\desktop.ini" />
+    <None Remove="Models\ViewModels\desktop.ini" />
     <None Remove="yarn.lock" />
 
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->

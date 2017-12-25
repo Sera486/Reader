@@ -1,7 +1,7 @@
-import './css/site.less'
+import './less/site.less'
 import 'core-js/es6/promise'
 import 'core-js/es6/array'
 
 import { app } from './app'
 
-app.$mount('#app')
+app.$mount('#app');
