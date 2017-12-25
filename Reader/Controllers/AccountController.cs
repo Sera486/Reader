@@ -1,9 +1,15 @@
 using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Reader.DataBase;
 using Reader.Models;
 using Reader.Models.ViewModels;
@@ -19,17 +25,20 @@ namespace Reader.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
+        private readonly IConfiguration _configuration;
 
         public AccountController(
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IConfiguration configuration)
         {
             _db = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _configuration = configuration;
         }
 
         //
@@ -46,10 +55,9 @@ namespace Reader.Controllers
                 {
                     _logger.LogInformation(1, "User logged in.");
                     ApplicationUser user = await _userManager.FindByNameAsync(model.UserName);
-                    return Json(new 
-                    {
-                        user = user
-                    });
+
+                    var token = GenerateJwtToken(user.UserName, user);
+                    return Json(new {user,token});
                 }
                 else
                 {
@@ -75,16 +83,15 @@ namespace Reader.Controllers
                 var user = new ApplicationUser
                 {
                     UserName = model.UserName,
-                    Email = model.Email,
-                    //TODO: Плохо это так оставлять, но сейчас я вертел
-                    EmailConfirmed =true
+                    Email = model.Email
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     user = await _userManager.FindByNameAsync(model.UserName);
-                    return Json(user);
+                    var token = GenerateJwtToken(user.UserName, user);
+                    return Json(new {user,token});
                 }
             }
             else
@@ -106,6 +113,28 @@ namespace Reader.Controllers
             {
                 result = true
             });
+        }
+
+        private  string GenerateJwtToken(string userName, ApplicationUser user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, userName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            IConfigurationSection authConfiguration = _configuration.GetSection("Authorization");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authConfiguration["TokenKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                authConfiguration["TokenIssuer"],
+                authConfiguration["TokenIssuer"],
+                claims,
+                signingCredentials: creds
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
