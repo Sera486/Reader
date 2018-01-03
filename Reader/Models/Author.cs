@@ -7,6 +7,6 @@ namespace Reader.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public List<BookAuthor> PublishedBooks { get; set; }
+        public List<BookAuthor> PublishedBooks { get; set; } = new List<BookAuthor>();
     }
 }
