@@ -57,17 +57,25 @@ namespace Reader.Controllers
                     ApplicationUser user = await _userManager.FindByNameAsync(model.UserName);
 
                     var token = GenerateJwtToken(user.UserName, user);
-                    return Json(new {user,token});
+                    return Ok(new
+                    {
+                        user = new
+                        {
+                            id = user.Id,
+                            userName = user.UserName,
+                            email = user.Email
+                        },
+                        token
+                    });
                 }
                 else
                 {
-                    //throw new Exception(result.ToString());
                     return Unauthorized();
                 }
             }
             catch (Exception e)
             {
-                _logger.LogWarning(6, "Invalid login attempt.");
+                _logger.LogWarning(6, $"Invalid login attempt.\n{e}");
                 return Unauthorized();
             }
         }
@@ -91,7 +99,16 @@ namespace Reader.Controllers
                 {
                     user = await _userManager.FindByNameAsync(model.UserName);
                     var token = GenerateJwtToken(user.UserName, user);
-                    return Json(new {user,token});
+                    return Ok(new
+                    {
+                        user = new
+                        {
+                            id = user.Id,
+                            userName = user.UserName,
+                            email = user.Email
+                        },
+                        token
+                    });
                 }
             }
             else
