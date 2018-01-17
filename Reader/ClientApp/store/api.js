@@ -5,15 +5,23 @@ function errorHandler(error) {
 }
 
 export default {
-    async login(user) {
-        let response = await axios.post("/api/account/login",
-            {
-                userName: user.userName,
-                password: user.password,
-                remeberMe: user.remeberMe
-            });
-        localStorage.setItem("token", response.data.token);
-        //this.user.authenticated = true;
+    async getBook(id="") {
+        let response = await axios.get("/api/book/"+id);
+        console.log(response.data);
+        return response.data;
+    },
+
+    async getBookPreview(id = "") {
+        let response = await axios.get("/api/bookpreview/" + id);
+        console.log(response.data);
+        return response.data;
+    },
+
+    async postBook(bookFile) {
+        let data = new FormData();
+        data.append('uploadedFile',bookFile);
+
+        let response = await axios.post('/api/book/addbook', data);
         return response.data;
     }
 }

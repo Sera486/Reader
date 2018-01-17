@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Api from 'api'
+import Auth from './auth'
 
 Vue.use(Vuex);
 
@@ -11,7 +12,9 @@ const SET_USER = 'SET_USER';
 
 // STATE
 const state = {
-    user:null,
+    user: {
+        isAuthenticated:false
+    },
     counter: 0
 }
 
@@ -21,6 +24,7 @@ const mutations = {
         state.counter = obj.counter;
     },
     [SET_USER](state, obj) {
+        obj.user.isAuthenticated = true;
         console.log(obj.user);
         state.user = obj.user;
         console.log(state.user.userName);
@@ -34,8 +38,8 @@ const actions = ({
     },
 
     async login({ commit }, user) {
-
-        let obj = await Api.login(user);
+        let obj = await Auth.login(user);
+        console.log(obj);
         commit(SET_USER, obj);
     }
 });
