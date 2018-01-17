@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <UserSecretsId>fa4c2603-8679-4bec-a8b7-9097057e51fd</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="FB2Library" Version="1.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.1" />
@@ -11,20 +14,28 @@
   <ItemGroup>
     <!-- Files not to show in IDE -->
     <None Remove=".gitignore" />
-    <None Remove="ClientApp\components\desktop.ini" />
-    <None Remove="ClientApp\less\desktop.ini" />
-    <None Remove="ClientApp\store\desktop.ini" />
-    <None Remove="DataBase\desktop.ini" />
-    <None Remove="Models\desktop.ini" />
-    <None Remove="Models\ViewModels\desktop.ini" />
+    <Compile Remove="wwwroot\books\**" />
+    <None Remove="**\desktop.ini" />
+    <None Remove="wwwroot\books\**" />
     <None Remove="yarn.lock" />
 
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
     <Content Remove="ClientApp\**" />
+    <Content Remove="**\desktop.ini" />
+    <Content Remove="wwwroot\books\**" />
+    <EmbeddedResource Remove="wwwroot\books\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="DataBase\Migrations\20171218210743_Initial.cs" />
     <Compile Remove="DataBase\Migrations\20171218210743_Initial.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\books\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\converters\fb2_to_rtf.xsl" />
+    <None Include="wwwroot\converters\fb2_to_txt.xsl" />
+    <None Include="wwwroot\converters\fb2_to_xhtml.xsl" />
   </ItemGroup>
   <Target Name="RunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
