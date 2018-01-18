@@ -9,6 +9,8 @@
 </template>
 
 <script>
+    import * as types from '../store/mutation-types'
+
     import Vue from 'vue'
     import NavMenu from './nav-menu'
     import HomePage from './home-page'
@@ -29,22 +31,34 @@
     Vue.component('user-preview', UserPreview);
 
 
-export default {
-    data() {
-        return {
-            modalVisible: false
-        }
-    },
-    methods: {
-        showModal: function (event) {
-            this.modalVisible = true;
+    export default {
+        data() {
+            return {
+                modalVisible: false
+            }
         },
-        closeModal: function (event) {
-            this.modalVisible = false;
+
+        methods: {
+            showModal: function (event) {
+                this.modalVisible = true;
+            },
+            closeModal: function (event) {
+                this.modalVisible = false;
+            }
+        },
+
+        beforeMount() {
+            //restoring user after page refresh
+            let user = JSON.parse(localStorage.getItem("user"));
+            console.log(user);
+            if (user) {
+                user.isAuthentificated = true;
+                this.$store.commit(types.SET_USER, user);
+            }
         }
+
     }
 
-}
 </script>
 
 <style>

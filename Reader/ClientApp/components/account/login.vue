@@ -2,7 +2,7 @@
     <transition name="modal">
         <div class="modal-mask">
             <div class="modal-wrapper" @click="close" >
-                <div class="modal-container" v-on:click.stop=""> <!-- дабы модалка не закрывалась при клике на неё саму-->
+                <div class="modal-container" v-on:click.stop> <!-- дабы модалка не закрывалась при клике на неё саму-->
 
                     <div class="modal-header">
                         <slot name="header">
@@ -36,7 +36,7 @@
                     <div class="modal-footer">
                         <slot name="footer">
                             <div class="row">
-                                <input @click="login" type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
+                                <input @click="handleLogin" type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
                                 <a @click="close" class="btn btn-link btn-lg  pull-left">Register</a>
                             </div>
                         </slot>
@@ -50,21 +50,33 @@
 
 <script>
     import { mapActions } from 'vuex'
+    import * as types from '../../store/mutation-types'
+    import {login} from '../../store/auth'
+
     //TODO: Сейчас модалка только для логина, хорошо бы её переделать под всё на свете
     export default {
         data() {
             return {
                 userName: "",
                 password: "",
-                remeberMe:true
+                remeberMe: true
             }
         },
         methods: {
-            close: function (event) {
+            close(event) {
                 this.$emit('close');
             },
-            login: function () {
-                this.$store.dispatch('login', { userName: this.userName, password: this.password, remeberMe: this.remeberMe });
+            async handleLogin() {
+                console.log("login initiated");
+                let response = await login({ userName: this.userName, password: this.password, remeberMe: this.remeberMe });
+                
+                localStorage.setItem("token", response.token);
+                localStorage.setItem("user", JSON.stringify(response.user));
+
+                let user = response.user; 
+                user.isAuthentificated = true;
+                this.$store.commit(types.SET_USER, user);
+                this.close();
             }
         }
     }

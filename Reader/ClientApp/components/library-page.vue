@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import api from '../store/api'
+    import { getBook } from '../store/api'
 
 	export default {
         data() {
@@ -15,7 +15,7 @@
         },
 
         async created() {
-            this.books = await api.getBook();
+            this.books = await getBook();
         }
 	 }
 </script>

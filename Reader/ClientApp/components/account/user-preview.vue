@@ -1,8 +1,7 @@
 <template>
     <div>
-        <a class="navbar-brand userImgHead" title="Manage">
-            <img style="height: 99%;" class="img-responsive img-circle userImgHead" src="" alt="">
-        </a>
+        <img class="img-responsive img-circle" src="" alt="">
+        <div class="username">{{user.userName}}</div>
     </div>
 </template>
 
@@ -15,13 +14,15 @@
         },
 
     computed: {
-            ...mapState({
-                user: state => state.user
-            })
+            ...mapState([
+                'user',
+            ])
         }
     }
 </script>
 
-<style lang="less">
-
+<style lang="less" scoped>
+    .username{
+        color:skyblue;
+    }
 </style>

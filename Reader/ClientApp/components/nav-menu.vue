@@ -20,9 +20,10 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li v-if="user.isAuthenticated"></li>
-                        <li v-if="!user.isAuthenticated"><a><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                        <li v-if="!user.isAuthenticated"><a @click="showLoginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <li v-if="user.isAuthentificated"><a><user-preview></user-preview></a></li>
+                        <li v-if="user.isAuthentificated"><a @click="handleLogout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        <li v-if="!user.isAuthentificated"><a><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                        <li v-if="!user.isAuthentificated"><a @click="showLoginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
                 </div>
             </transition>
@@ -34,7 +35,9 @@
 <script>
     import UserPreview from './account/user-preview'
     import { routes } from '../routes'
-    import { mapState } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
+    import * as types from '../store/mutation-types'
+    import { logout } from '../store/auth'
 
 export default {
         data() {
@@ -45,9 +48,9 @@ export default {
         },
 
         computed: {
-            ...mapState({
-                user: state => state.user
-            })
+            ...mapState([
+                'user'
+            ])
         },
 
         methods: {
@@ -56,6 +59,10 @@ export default {
         },
         showLoginModal: function (event) {
             this.$emit("showlogin");
+        },
+        handleLogout: function (event) {
+            logout();
+            this.$store.commit(types.SET_USER, { isAuthentificated: false });
         }
     }
 }

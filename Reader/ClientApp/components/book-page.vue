@@ -1,7 +1,7 @@
 <template>
     <div>
         <p v-if="!htmlBook"><em>Loading...</em></p>
-        <div v-if="htmlBook" v-html="htmlBook">
+        <div v-if="htmlBook" v-html="htmlBook" class="book-container">
 
         </div>
     </div>
@@ -9,7 +9,7 @@
 
 <script>
     import axios from 'axios'
-    import api from '../store/api'
+    import { getBook } from '../store/api'
 
 	export default {
         data() {
@@ -19,7 +19,7 @@
         },
         
         async created() {
-            let book = await api.getBook(this.$route.params.id);
+            let book = await getBook(this.$route.params.id);
             document.title = book.title;
             this.htmlBook = (await axios.get(book.fileURL)).data;
             
@@ -27,17 +27,13 @@
 	 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 
     body {
         background-color: #FEFEFE;
         color: #000000;
         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
         text-align: justify
-    }
-
-    small {
-        font-size: 80%
     }
 
     p{
@@ -64,4 +60,8 @@
         margin-left: 35%;
     }
 
+    .book-container {
+        overflow: auto;
+        max-height: 80vh;
+    }
 </style>

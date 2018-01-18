@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import Api from '../store/api'
+    import { postBook} from '../store/api'
 
     export default {
         data() {
@@ -26,7 +26,7 @@
 
         methods: {
             async saveBook() {
-                let response = await Api.postBook(document.getElementById('file').files[0]);
+                let response = await postBook(document.getElementById('file').files[0]);
                 console.log(response);
                 console.log("save book result" + "response:" + response + "\n response data" + response.data);
                 this.$emit("bookLoaded", response);
