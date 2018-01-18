@@ -16,91 +16,50 @@ const getAuthToken =()=> {
 axios.defaults.headers.common.Authorization = getAuthToken();
 
 
-export default {
-    user: {
-        authenticated: false
-    },
+export const login = async (user, redirect) => {
+    try {
+        let response = await axios.post(LOGIN_URL,
+            {
+                userName: user.userName,
+                password: user.password,
+                remeberMe: user.remeberMe
+            });
 
-    async login(user,redirect) {
-        try {
-            let response = await axios.post(LOGIN_URL,
-                {
-                    userName: user.userName,
-                    password: user.password,
-                    remeberMe: user.remeberMe
-                });
+        console.log(response.data.token);
 
-            localStorage.setItem("token", response.data.token);
-
-            this.user.authenticated = true;
-
-            if (redirect) {
-                router.go(redirect);
-            }
-        } catch (err) {
-            console.log("Failed to login"+err);
+        if (redirect) {
+            router.go(redirect);
         }
+
         return response.data;
-    },
-
-    //login(context, creds, redirect) {
-    //    context.$http.post(LOGIN_URL,
-    //        creds,
-    //        (data) => {
-    //            localStorage.setItem("token", data.token);
-
-    //            this.user.authenticated = true;
-
-    //            if (redirect) {
-    //                router.go(redirect);
-    //            }
-
-    //        }).error((err) => {
-    //        context.error = err;
-    //    });
-    //},
-
-    async register(user,redirect) {
-        try {
-            let response = await axios.post(LOGIN_URL,
-                {
-                    userName: user.userName,
-                    password: user.password,
-                    remeberMe: user.remeberMe
-                });
-
-            localStorage.setItem("token", response.data.token);
-            this.user.authenticated = true;
-        } catch (err) {
-            console.log("Failed to login" + err);
-        }
-        return response.data;
-    },
-
-    //signup(context, creds, redirect) {
-    //    context.$http.post(SIGNUP_URL,
-    //        creds,
-    //        (data) => {
-    //            localStorage.setItem("token", data.id_token);
-
-    //            this.user.authenticated = true;
-
-    //            if (redirect) {
-    //                router.go(redirect);
-    //            }
-
-    //        }).error((err) => {
-    //        context.error = err;
-    //    });
-    //},
-
-    logout() {
-        localStorage.removeItem("token");
-        this.user.authenticated = false;
-    },
-
-    checkAuth() {
-        let jwt = localStorage.getItem("token");
-        this.user.authenticated = !!jwt;
+    } catch (err) {
+        console.log("Failed to login" + err);
     }
+}
+
+export const register= async (user, redirect) => {
+    try {
+        let response = await axios.post(LOGIN_URL,
+            {
+                userName: user.userName,
+                password: user.password,
+                remeberMe: user.remeberMe
+            });
+
+        localStorage.setItem("token", response.data.token);
+        this.user.authenticated = true;
+    } catch (err) {
+        console.log("Failed to login" + err);
+    }
+    return response.data;
+}
+
+export const logout = () => {
+    localStorage.clear();
+    console.log("user logged out");
+}
+
+export function isAuthenticated() {
+    let jwt = localStorage.getItem("token");
+    return !!jwt;
 }
