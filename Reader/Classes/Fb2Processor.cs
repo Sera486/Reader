@@ -12,17 +12,15 @@ namespace Reader.Classes
 {
     public class Fb2Processor:FileProcessor
     {
-        public Fb2Processor(ApplicationDbContext context,string savePath):base(context,savePath)
+        public Fb2Processor(string savePath):base(savePath)
         {
             _defaultExtension = ".fb2";
         }
 
-        public override async Task<int> SaveAsync(Stream stream)
+        public override async Task<Book> SaveAsync(Stream stream)
         {
             var hash = GetHash(stream);
-            int id = GetBookIdByHash(hash);
-            if (id != 0) return id;
-
+            
             stream.Position = 0;
             var path = await SaveFile(stream,hash);
             stream.Position = 0;
@@ -31,7 +29,7 @@ namespace Reader.Classes
             var fb2File = await ReadFB2FileStreamAsync(stream);
             var genres = fb2File.TitleInfo.Genres;
             var authors = fb2File.TitleInfo.BookAuthors;
-            var book = new Book {Title = fb2File.TitleInfo.BookTitle.Text, Hash = hash, FileURL =$@"\{htmlPath}"};
+            Book book = new Book {Title = fb2File.TitleInfo.BookTitle.Text, Hash = hash, FileURL =$@"\{htmlPath}"};
             foreach (var g in genres)
             {
                 var genre = new Genre {Name = g.Genre};
@@ -56,10 +54,7 @@ namespace Reader.Classes
                 }
             }
 
-            _context.Books.Add(book);
-            _context.SaveChanges();
-            Debug.WriteLine("Book id:"+book.Id);
-            return book.Id;
+            return book;
         }
 
         private string SaveToHtml(Stream stream, string path)

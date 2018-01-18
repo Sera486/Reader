@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reader.Classes;
@@ -18,11 +20,13 @@ namespace Reader.Controllers
     public class BookController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IHostingEnvironment _appEnvironment;
         
-        public BookController(ApplicationDbContext context, IHostingEnvironment appEnvironment)
+        public BookController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,IHostingEnvironment appEnvironment)
         {
             _context = context;
+            _userManager = userManager;
             _appEnvironment = appEnvironment;
         }
 
@@ -59,21 +63,41 @@ namespace Reader.Controllers
             if (uploadedFile == null) return BadRequest("No data was specified");
             try
             {
-                var processor = new Fb2Processor(_context, _appEnvironment.WebRootPath);
-                var id=await processor.SaveAsync(uploadedFile.OpenReadStream());
-                var book=_context.Books.Find(id);
-                return CreatedAtAction("GetBook",id,book);
+                Book book = BookByHash(GetHash(uploadedFile.OpenReadStream()));
+                if (book==null)
+                {
+                    var processor = new Fb2Processor(_appEnvironment.WebRootPath);
+                    book = await processor.SaveAsync(uploadedFile.OpenReadStream());
+                }
+                
+                if (HttpContext.User != null)//заливающий человек залогинен
+                {
+                    var user =await _userManager.GetUserAsync(HttpContext.User);
+                    if (book.Uploader == null) book.Uploader = user;
+                }
+
+                await _context.Books.AddAsync(book);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetBook",book.Id,book);
             }
             catch (Exception e)
             {
-                
                 return BadRequest(e);
             }
         }
 
-        private bool BookExists(int id)
+        public string GetHash(Stream bytes)
         {
-            return _context.Books.Any(e => e.Id == id);
+            using (var md5 = MD5.Create())
+            {
+                return BitConverter.ToString(md5.ComputeHash(bytes)).Replace("-", "");
+            }
+        }
+
+
+        private Book BookByHash(string hash)
+        {
+            return _context.Books.FirstOrDefault(b => b.Hash == hash);
         }
     }
 }

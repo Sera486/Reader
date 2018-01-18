@@ -10,31 +10,25 @@ namespace Reader.Classes
 {
     public abstract class FileProcessor
     {
-        protected readonly ApplicationDbContext _context;
         protected readonly string _webRoot;
         protected string _defaultExtension=".txt";
 
-        protected FileProcessor(ApplicationDbContext context, string savePath)
+        protected FileProcessor( string savePath)
         {
             _defaultExtension = ".txt";
-            _context = context;
             _webRoot =  savePath;
         }
 
-        public virtual async Task<int> SaveAsync(Stream stream)
+        public virtual async Task<Book> SaveAsync(Stream stream)
         {
             var hash = GetHash(stream);
-            int id = GetBookIdByHash(hash);
-            if (id != 0) return id;
-
-            stream.Position = 0;
-            await SaveFile(stream, hash);
-            stream.Position = 0;
-            var book = new Book {Hash = hash};
             
-            _context.Books.Add(book);
-            _context.SaveChanges();
-            return book.Id;
+            stream.Position = 0;
+            var path = await SaveFile(stream, hash);
+            stream.Position = 0;
+            Book book = new Book {Hash = hash, FileURL = path};
+
+            return book;
         }
 
         public string GetHash(Stream bytes)
@@ -56,12 +50,6 @@ namespace Reader.Classes
                 await stream.CopyToAsync(fileStream);
             }
             return relativePath;
-        }
-
-        protected int GetBookIdByHash(string hash)
-        {
-            var book= _context.Books.FirstOrDefault(b => b.Hash == hash);
-            return book?.Id ?? 0;
         }
     }
 }
