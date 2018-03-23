@@ -4,7 +4,7 @@
             <div>
                 <label class="control-label"></label>
                 <span class="btn btn-default btn-block">
-                    <input type="file" id="file">
+                    <input type="file" id="file" accept=".fb2">
                 </span>
                 <hr>
             </div>
@@ -27,8 +27,6 @@
         methods: {
             async saveBook() {
                 let response = await postBook(document.getElementById('file').files[0]);
-                console.log(response);
-                console.log("save book result" + "response:" + response + "\n response data" + response.data);
                 this.$emit("bookLoaded", response);
             }
         }
