@@ -1,10 +1,12 @@
 <template>
     <div id="app" class="container-fluid">
         <div class="row">
-            <nav-menu params="route: route" v-on:showlogin="showModal"></nav-menu>
+            <nav-menu params="route: route" v-on:showModal="showModal"></nav-menu>
             <router-view class="router-view"></router-view>
         </div>
-        <login v-if="modalVisible" v-on:close="closeModal"></login>
+        <modal v-if="modalVisible" v-on:close="closeModal">
+            <component v-bind:is="currentModal" v-on:close="closeModal"></component>
+        </modal>
     </div>
 </template>
 
@@ -13,9 +15,11 @@
 
     import Vue from 'vue'
     import NavMenu from './nav-menu'
+    import Modal from './modal'
     import HomePage from './home-page'
     import LibraryPage from './library-page'
     import Login from './account/login'
+    import Register from './account/register'
     import BookPreview from './book-preview'
     import BookPage from './book-page'
     import BookLoader from './book-loader'
@@ -24,6 +28,7 @@
     Vue.component('home-page', HomePage);
     Vue.component('library-page', LibraryPage);
     Vue.component('nav-menu', NavMenu);
+    Vue.component('modal', Modal);
     Vue.component('login', Login);
     Vue.component('book-preview', BookPreview);
     Vue.component('book-page', BookPage);
@@ -34,18 +39,26 @@
     export default {
         data() {
             return {
-                modalVisible: false
+                modalVisible: false,
+                currentModal:'login',
             }
         },
 
         methods: {
-            showModal: function (event) {
+            showModal(event) {
                 this.modalVisible = true;
+                this.currentModal = event;
             },
-            closeModal: function (event) {
+            closeModal(event) {
                 this.modalVisible = false;
             }
         },
+
+        components: {
+            login: Login,
+            register: Register,
+        },
+
 
         beforeMount() {
             //restoring user after page refresh
@@ -56,15 +69,11 @@
                 this.$store.commit(types.SET_USER, user);
             }
         }
-
     }
-
 </script>
 
 <style>
     .router-view {
         margin-top: 80px;
-        margin-left: 60px;
-        margin-right: 60px;
     }
 </style>

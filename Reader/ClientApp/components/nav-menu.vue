@@ -22,7 +22,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li v-if="user.isAuthentificated"><a><user-preview></user-preview></a></li>
                         <li v-if="user.isAuthentificated"><a @click="handleLogout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-                        <li v-if="!user.isAuthentificated"><a><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                        <li v-if="!user.isAuthentificated"><a @click="showRegisterModal"><span class="glyphicon glyphicon-user"></span> Register</a></li>
                         <li v-if="!user.isAuthentificated"><a @click="showLoginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
                 </div>
@@ -58,7 +58,10 @@ export default {
             this.collapsed = !this.collapsed;
         },
         showLoginModal: function (event) {
-            this.$emit("showlogin");
+            this.$emit("showModal","login");
+        },
+        showRegisterModal: function (event) {
+            this.$emit("showModal", "register");
         },
         handleLogout: function (event) {
             logout();
