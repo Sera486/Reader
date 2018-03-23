@@ -29,16 +29,17 @@
 
 <style lang="less" scoped>
 
-    body {
-        background-color: #FEFEFE;
-        color: #000000;
-        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-        text-align: justify
-    }
-
     p{
         display:block;
         margin:0px;
+    }
+
+    a{
+        text-decoration:none;
+    }
+
+    a:hover{
+        text-decoration:none;
     }
 
     blockquote {
@@ -61,7 +62,13 @@
     }
 
     .book-container {
+        background-color: #FEFEFE;
+        color: #000000;
+        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+        text-align: justify;
         overflow: auto;
+        padding-right: 40px;
+        padding-left: 40px;
         max-height: 80vh;
     }
 </style>
