@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Reader.Models.ViewModels
+namespace Reader.ViewModels.Account
 {
     public class LoginViewModel
     {
