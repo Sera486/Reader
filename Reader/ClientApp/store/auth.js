@@ -39,19 +39,13 @@ export const login = async (user, redirect) => {
 
 export const register= async (user, redirect) => {
     try {
-        let response = await axios.post(LOGIN_URL,
-            {
-                userName: user.userName,
-                password: user.password,
-                remeberMe: user.remeberMe
-            });
+        console.log(user);
+        let response = await axios.post(REGISTER_URL,user);
 
-        localStorage.setItem("token", response.data.token);
-        this.user.authenticated = true;
+        return response.data;
     } catch (err) {
         console.log("Failed to login" + err);
     }
-    return response.data;
 }
 
 export const logout = () => {
