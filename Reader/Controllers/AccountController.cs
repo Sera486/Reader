@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Reader.DataBase;
 using Reader.Models;
-using Reader.Models.ViewModels;
+using Reader.ViewModels.Account;
 
 namespace Reader.Controllers
 {
@@ -70,7 +70,7 @@ namespace Reader.Controllers
                 }
                 else
                 {
-                    return Unauthorized();
+                    return Json(new {error=result});
                 }
             }
             catch (Exception e)
@@ -86,37 +86,34 @@ namespace Reader.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new ApplicationUser
-                {
-                    UserName = model.UserName,
-                    Email = model.Email
-                };
+                return Json(new {error = "Wrong data. Please, check input and try again"});
+            }
 
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    user = await _userManager.FindByNameAsync(model.UserName);
-                    var token = GenerateJwtToken(user.UserName, user);
-                    return Ok(new
-                    {
-                        user = new
-                        {
-                            id = user.Id,
-                            userName = user.UserName,
-                            email = user.Email
-                        },
-                        token
-                    });
-                }
-            }
-            else
+            var user = new ApplicationUser
             {
-                return Json(new { error = "Wrong data. Please, check input and try again" });
+                UserName = model.UserName,
+                Email = model.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                user = await _userManager.FindByNameAsync(model.UserName);
+                var token = GenerateJwtToken(user.UserName, user);
+                return Ok(new
+                {
+                    user = new
+                    {
+                        id = user.Id,
+                        userName = user.UserName,
+                        email = user.Email
+                    },
+                    token
+                });
             }
-            // If we got this far, something failed, redisplay form
-            return Json(new {error="Failed to create new user, try again later"});
+            else return Json(new {error = result.Errors});
         }
 
         //
