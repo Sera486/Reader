@@ -24,6 +24,7 @@
     import BookPage from './book-page'
     import BookLoader from './book-loader'
     import UserPreview from './account/user-preview'
+    import LoadingWheel from './loading-wheel'
 
     Vue.component('home-page', HomePage);
     Vue.component('library-page', LibraryPage);
@@ -34,7 +35,7 @@
     Vue.component('book-page', BookPage);
     Vue.component('book-loader', BookLoader);
     Vue.component('user-preview', UserPreview);
-
+    Vue.component('loading-wheel', LoadingWheel);
 
     export default {
         data() {
@@ -72,7 +73,7 @@
     }
 </script>
 
-<style>
+<style lang="less">
     .router-view {
         margin-top: 80px;
     }

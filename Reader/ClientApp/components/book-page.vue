@@ -1,8 +1,7 @@
 <template>
     <div>
-        <p v-if="!htmlBook"><em>Loading...</em></p>
+        <loading-wheel v-bind:loading="!htmlBook"></loading-wheel>
         <div v-if="htmlBook" v-html="htmlBook" class="book-container">
-
         </div>
     </div>
 </template>
@@ -27,22 +26,35 @@
 	 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
+    @import "../less/constants.less";
 
-    p{
-        display:block;
-        margin:0px;
+    .book-container {
+        background-color: #FEFEFE;
+        color: @book-text-color !important;
+        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+        text-align: justify;
+        text-decoration: none !important;
+        overflow: auto;
+        padding-right: 40px;
+        padding-left: 40px;
+        max-height: 80vh;
+            a {
+                text-decoration: none;
+                color: @book-text-color;
+                &:hover {
+                    text-decoration: none;
+                    color: @book-text-color;
+                }
+            }
     }
 
-    a{
-        text-decoration:none;
+    .book-container p {
+        display: block;
+        margin: 0px;
     }
 
-    a:hover{
-        text-decoration:none;
-    }
-
-    blockquote {
+    .book-container blockquote {
         margin-left: 4em;
         margin-top: 1em;
         margin-right: 0.2em;
@@ -59,16 +71,5 @@
     .epigraph {
         width: 50%;
         margin-left: 35%;
-    }
-
-    .book-container {
-        background-color: #FEFEFE;
-        color: #000000;
-        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-        text-align: justify;
-        overflow: auto;
-        padding-right: 40px;
-        padding-left: 40px;
-        max-height: 80vh;
     }
 </style>

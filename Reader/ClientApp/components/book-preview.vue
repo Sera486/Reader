@@ -17,7 +17,6 @@ p<template>
 
         methods: {
             openBook() {
-                console.log(`open book called with param ${this.id}`);
                 this.$router.push({ name: 'book', params: { id: this.id } });
             }
         },
@@ -32,11 +31,17 @@ p<template>
         margin: 10px;
         width: 250px;
         height: 400px;
-        box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+        box-shadow: 2px 0 7px rgba(0, 0, 0, 0.3);
         display:inline-block;
+        border-radius: 3px;
+        overflow: hidden;
+        transition: box-shadow 0.5s;
+        &:hover {
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+        }
 
         .cover{
-        cursor: pointer;
+            cursor: pointer;
         }
 
     .image-container {
@@ -47,16 +52,16 @@ p<template>
         position: relative;
         overflow: hidden;
         img {
-                margin:auto;
-        display: block;
-        max-width: 100%;
-        max-height: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        }
+            margin:auto;
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            }
         }
 
 

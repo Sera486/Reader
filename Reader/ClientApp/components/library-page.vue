@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="book-preview-container">
+        <loading-wheel v-bind:loading="!books"></loading-wheel>
         <book-preview v-for="book in books" v-bind="book"></book-preview>
     </div>
 </template>
@@ -10,7 +11,7 @@
 	export default {
         data() {
             return {
-                books: []
+                books: null
             }
         },
 
@@ -21,4 +22,9 @@
 </script>
 
 <style lang="less" scoped>
+    .book-preview-container{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:space-around;
+    }
 </style>
