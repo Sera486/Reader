@@ -20,10 +20,10 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li v-if="user.isAuthentificated"><a><user-preview></user-preview></a></li>
-                        <li v-if="user.isAuthentificated"><a @click="handleLogout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-                        <li v-if="!user.isAuthentificated"><a @click="showRegisterModal"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                        <li v-if="!user.isAuthentificated"><a @click="showLoginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        <li v-if="user != null"><a><user-preview></user-preview></a></li>
+                        <li v-if="user != null"><a @click="handleLogout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        <li v-if="user == null"><a @click="showRegisterModal"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                        <li v-if="user == null"><a @click="showLoginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     </ul>
                 </div>
             </transition>
@@ -65,7 +65,8 @@ export default {
         },
         handleLogout: function (event) {
             logout();
-            this.$store.commit(types.SET_USER, { isAuthentificated: false });
+            this.$store.commit(types.SET_USER, null);
+            this.$store.commit(types.SET_TOKEN, null);
         }
     }
 }

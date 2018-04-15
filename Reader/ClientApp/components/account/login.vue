@@ -54,12 +54,10 @@
             async handleLogin() {
                 let response = await login({ userName: this.userName, password: this.password, remeberMe: this.remeberMe });
                 
-                localStorage.setItem("token", response.token);
-                localStorage.setItem("user", JSON.stringify(response.user));
-
-                let user = response.user; 
-                user.isAuthentificated = true;
+                let user = response.user;
+                let token = response.token;
                 this.$store.commit(types.SET_USER, user);
+                this.$store.commit(types.SET_TOKEN, token);
                 this.close();
             }
         }

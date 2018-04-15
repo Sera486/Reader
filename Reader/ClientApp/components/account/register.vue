@@ -54,15 +54,14 @@
             close(event) {
                 this.$emit('close');
             },
+
             async handleRegister() {
                 let response = await register({ userName: this.userName, email: this.email, password: this.password, confirmPassword: this.confirmPassword, });
 
-                localStorage.setItem("token", response.token);
-                localStorage.setItem("user", JSON.stringify(response.user));
-
                 let user = response.user;
-                user.isAuthentificated = true;
+                let token = response.token;
                 this.$store.commit(types.SET_USER, user);
+                this.$store.commit(types.SET_TOKEN, token);
                 this.close();
             }
         }
