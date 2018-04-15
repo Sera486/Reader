@@ -37,6 +37,11 @@
     Vue.component('user-preview', UserPreview);
     Vue.component('loading-wheel', LoadingWheel);
 
+    Vue.directive('title', {
+        inserted: (el, binding) => document.title = binding.value,
+        update: (el, binding) => document.title = binding.value
+    })
+
     export default {
         data() {
             return {
@@ -59,17 +64,6 @@
             login: Login,
             register: Register,
         },
-
-
-        beforeMount() {
-            //restoring user after page refresh
-            let user = JSON.parse(localStorage.getItem("user"));
-            console.log(user);
-            if (user) {
-                user.isAuthentificated = true;
-                this.$store.commit(types.SET_USER, user);
-            }
-        }
     }
 </script>
 
