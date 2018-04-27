@@ -26,10 +26,9 @@
 @import "../less/constants.less";
 
     .wheel {
-        padding-top:100px;
-        display:flex;
-        width:100%;
-        height:100%;
+        position: fixed;
+        top: 50%;
+        left: 50%;
     }
 
     .circle {
