@@ -25,6 +25,8 @@
     import BookLoader from './book-loader'
     import UserPreview from './account/user-preview'
     import LoadingWheel from './loading-wheel'
+    import TableOfContent from './table-of-content'
+    import UserLibraryPage from './user-library-page'
 
     Vue.component('home-page', HomePage);
     Vue.component('library-page', LibraryPage);
@@ -36,6 +38,8 @@
     Vue.component('book-loader', BookLoader);
     Vue.component('user-preview', UserPreview);
     Vue.component('loading-wheel', LoadingWheel);
+    Vue.component('table-of-content', TableOfContent);
+    Vue.component('user-library-page', UserLibraryPage);
 
     export default {
         data() {

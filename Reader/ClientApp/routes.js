@@ -1,5 +1,6 @@
 import HomePage from 'components/home-page'
 import LibraryPage from 'components/library-page'
+import UserLibraryPage from 'components/user-library-page'
 import BookPage from 'components/book-page'
 import Error404Page from 'components/error404-page'
 
@@ -22,6 +23,16 @@ export const routes = [
             requiresAuth: false,
         },
         display: 'Library',
+        style: 'glyphicon glyphicon-book'
+    },
+    {
+        path: '/userlibrary',
+        component: UserLibraryPage,
+        meta: {
+            title: 'My Library',
+            requiresAuth: true,
+        },
+        display: 'My Library',
         style: 'glyphicon glyphicon-book'
     },
     {
