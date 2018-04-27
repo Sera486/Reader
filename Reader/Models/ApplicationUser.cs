@@ -7,6 +7,6 @@ namespace Reader.Models
     {
         public string ImageURL { get; set; }
         public List<Book> Books { get; set; }=new List<Book>();
-        public Library Library { get; set; }=new Library();
+        public List<Catalog> Catalogs { get; set; }=new List<Catalog>();
     }
 }

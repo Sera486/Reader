@@ -12,5 +12,6 @@ namespace Reader.Models
         public ApplicationUser Uploader { get; set; }
         public List<BookAuthor> Authors { get; set; } = new List<BookAuthor>();
         public List<BookGenre> Genres { get; set; } = new List<BookGenre>();
+        public List<CatalogBook> CatalogBooks { get; set; } = new List<CatalogBook>();
     }
 }

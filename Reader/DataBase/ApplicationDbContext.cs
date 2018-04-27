@@ -13,7 +13,7 @@ namespace Reader.DataBase
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
-        public DbSet<Library> Libraries { get; set; }
+        public DbSet<Catalog> Catalogs { get; set; }
         public DbSet<Genre> Genres { get; set; }
 
 
@@ -24,19 +24,20 @@ namespace Reader.DataBase
             builder.Entity<ApplicationUser>(u =>
             {
                 u.HasMany(b => b.Books).WithOne(e => e.Uploader);
-                u.HasOne(l => l.Library).WithOne(l => l.User);
+                u.HasMany(l => l.Catalogs).WithOne(l => l.User);
             });
-            builder.Entity<Library>(l =>
+            builder.Entity<Catalog>(l =>
             {
-                l.HasMany(b => b.Books);
-                l.HasOne(u => u.User).WithOne(lib => lib.Library);
+                l.HasMany(b => b.CatalogBooks).WithOne(c=>c.Catalog);
             });
 
             //configure many-to-many relationship
             builder.Entity<BookAuthor>()
-                .HasKey(b => new { b.BookId, b.AuthorId });
+                .HasKey(ba => new { ba.BookId, ba.AuthorId });
             builder.Entity<BookGenre>()
-                .HasKey(b => new { b.BookId, b.GenreId });
+                .HasKey(bg => new { bg.BookId, bg.GenreId });
+            builder.Entity<CatalogBook>()
+                .HasKey(cb => new { cb.BookId, cb.CatalogId });
         } 
     }
 }
