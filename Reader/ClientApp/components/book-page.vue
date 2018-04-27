@@ -1,6 +1,7 @@
 <template>
     <div>
         <loading-wheel v-bind:loading="!htmlBook"></loading-wheel>
+        <table-of-content v-if="htmlBook"></table-of-content>
         <div v-if="htmlBook" v-html="htmlBook" class="book-container">
         </div>
     </div>

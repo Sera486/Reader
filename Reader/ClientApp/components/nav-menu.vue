@@ -13,7 +13,7 @@
             <transition name="slide">
                 <div class="navbar-collapse collapse in" v-show="!collapsed">
                     <ul class="nav navbar-nav">
-                        <li v-for="route in routes.filter(f=>f.display!=null)">
+                        <li v-for="route in routes.filter(f=>f.display!=null)" v-if="route.meta.requiresAuth==false ||(route.meta.requiresAuth==user.isAuthentificated)">
                             <router-link :to="route.path">
                                 <span :class="route.style"></span> {{ route.display }}
                             </router-link>

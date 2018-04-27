@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Reader.Models
 {
-    public class Library
+    public class Catalog
     {
         public int Id { get; set; }
-        public string Name { get; set; }//возможно юзлесс
+        public string Name { get; set; }
         public ApplicationUser User { get; set; }
-        public List<Book> Books { get; set; }=new List<Book>();
+        public List<CatalogBook> CatalogBooks { get; set; }=new List<CatalogBook>();
     }
 }
