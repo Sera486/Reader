@@ -17,11 +17,11 @@
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input v-model="password" class="form-control input-lg" placeholder="Password">
+                        <input type="password" v-model="password" class="form-control input-lg" placeholder="Password">
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input v-model="confirmPassword" class="form-control input-lg" placeholder="Password confirmation">
+                        <input type="password" v-model="confirmPassword" class="form-control input-lg" placeholder="Password confirmation">
                         <span class="text-danger"></span>
                     </div>
                 </fieldset>

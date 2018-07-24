@@ -9,16 +9,16 @@
                 <fieldset>
                     <h3>Enter login and password</h3>
                     <div class="form-group">
-                        <input v-model="userName" class="form-control input-lg" placeholder="Login">
+                        <input v-model="userName" class="form-control input-lg" placeholder="Login"/>
                         <span class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input v-model="password" class="form-control input-lg" placeholder="Password">
+                        <input type="password" v-model="password" class="form-control input-lg" placeholder="Password"/>
                         <span class="text-danger"></span>
                     </div>
                     <span class="button-checkbox">
                         <button type="button" class="btn" data-color="info">Remeber me</button>
-                        <input v-model="remeberMe" type="checkbox" checked="checked" class="hidden">
+                        <input v-model="remeberMe" type="checkbox" checked="checked" class="hidden"/>
                         <a class="btn btn-lg btn-link pull-right">Forgot password?</a>
                     </span>
                 </fieldset>
@@ -27,7 +27,7 @@
 
         <div class="modal-footer">
             <div class="row">
-                <input @click="handleLogin" type="submit" class="btn btn-lg btn-primary btn-block" value="Login">
+                <input @click="handleLogin" type="submit" class="btn btn-lg btn-primary btn-block" value="Login"/>
                 <a @click="close" class="btn btn-link btn-lg  pull-left">Register</a>
             </div>
         </div>
