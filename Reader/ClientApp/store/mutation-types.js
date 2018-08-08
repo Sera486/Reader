@@ -1,2 +1,11 @@
-export const SET_USER='SET_USER'
-export const SET_TOKEN = 'SET_TOKEN'
+export const SET_USER = "SET_USER";
+export const SET_TOKEN = "SET_TOKEN";
+export const SET_BOOK_POSINTION = "SET_BOOK_POSINTION";
+export const INCREASE_FONT_SIZE = "INCREASE_FONT_SIZE";
+export const DECREASE_FONT_SIZE = "DECREASE_FONT_SIZE";
+export const SET_FONT_FAMILY = "SET_FONT_FAMILY";
+export const SET_ALIGNMENT = "SET_ALIGNMENT";
+export const SET_LINE_HEGHT = "SET_LINE_HEGHT";
+export const SET_THEME = "SET_THEME";
+
+

@@ -12,9 +12,16 @@ let router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.name != 'book') ) {
+        let elems = document.getElementsByClassName('row');
+        for (var i = 0; i < elems.length; i++) {
+            elems[i].style.backgroundColor = 'white';
+        }
+    }
+
     document.title = to.meta.title;
     if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated()) {
-        next({ path: '/login', query: { redirect: to.fullPath } });
+        next({ path: '/', query: { redirect: to.fullPath } });
     } else {
         next();
     }

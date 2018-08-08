@@ -12,7 +12,14 @@ Vue.use(Vuex);
 // STATE
 const state = {
     //default state; if user data is actualy stored in local storage we will load it
-    user: null
+    user: null,
+    bookSettings: {
+        fontSize: 18,
+        fontFamily: "Verdana,sans-serif",
+        lineHeight: "1",
+        theme: "white",
+        textAlign: "justify"
+    }
 }
 
 
