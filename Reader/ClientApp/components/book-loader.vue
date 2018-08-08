@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="loader">
         <div class="form-group">
             <div>
                 <label class="control-label"></label>
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div>
-            <button class="btn waves-effect waves-teal" v-on:click="saveBook">Загрузить</button>
+            <button class="btn" v-on:click="saveBook">Upload</button>
         </div>
     </div>
 </template>
@@ -33,6 +33,8 @@
 	 }
 </script>
 
-<style lang="less">
-
+<style lang="less" scoped>
+    .loader{
+        margin: 20px 80px 0px 80px;
+    }
 </style>

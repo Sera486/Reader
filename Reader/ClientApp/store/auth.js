@@ -7,7 +7,8 @@ const REGISTER_URL = API_URL + "register";
 
 const getAuthToken =()=> {
     try {
-        return localStorage.getItem("token");
+        let state = JSON.parse(localStorage.getItem("vuex"));
+        return state['token'];
     } catch (err) {
         return null;
     }
@@ -25,8 +26,6 @@ export const login = async (user, redirect) => {
                 remeberMe: user.remeberMe
             });
 
-        console.log(response.data.token);
-
         if (redirect) {
             router.go(redirect);
         }
@@ -39,7 +38,6 @@ export const login = async (user, redirect) => {
 
 export const register= async (user, redirect) => {
     try {
-        console.log(user);
         let response = await axios.post(REGISTER_URL,user);
 
         return response.data;
@@ -54,6 +52,6 @@ export const logout = () => {
 }
 
 export function isAuthenticated() {
-    let jwt = localStorage.getItem("token");
+    let jwt = getAuthToken();
     return !!jwt;
 }

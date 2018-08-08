@@ -34,19 +34,14 @@ namespace Reader.Controllers
         [HttpGet]
         public IEnumerable<Book> GetBook()
         {
-            return _context.Books;
+            return _context.Books.Include(b=>b.Authors).ThenInclude(a=>a.Author);
         }
 
         // GET: api/Book/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBook([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var book = await _context.Books.SingleOrDefaultAsync(m => m.Id == id);
+            var book = await _context.Books.Include(b => b.Authors).ThenInclude(a => a.Author).SingleOrDefaultAsync(m => m.Id == id);
 
             if (book == null)
             {
@@ -55,7 +50,24 @@ namespace Reader.Controllers
 
             return Ok(book);
         }
-        
+
+        [HttpGet("SearchBook")]
+        public async Task<IActionResult> SearchBook([FromQuery] string bookName, [FromQuery] string authorName)
+        {
+           var books = _context.Books.Include(b => b.Authors).ThenInclude(a => a.Author).ToList();
+            List<Book> result=new List<Book>();
+            if (!string.IsNullOrWhiteSpace(bookName))
+            {
+                result.AddRange(books.Where(b => b.Title.ToLower().Contains(bookName.ToLower())).ToList());
+            }
+            if (!string.IsNullOrWhiteSpace(bookName))
+            {
+                result.AddRange(books.Where(b => b.Authors.Any(a => a.Author.Name.ToLower().Contains(bookName.ToLower()))).ToList());
+            }
+
+            return Ok(result);
+        }
+
         // POST: api/Book
         [HttpPost("addBook")]
         public async Task<IActionResult> AddBook(IFormFile uploadedFile)

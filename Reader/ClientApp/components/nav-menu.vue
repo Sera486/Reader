@@ -13,7 +13,7 @@
             <transition name="slide">
                 <div class="navbar-collapse collapse in" v-show="!collapsed">
                     <ul class="nav navbar-nav">
-                        <li v-for="route in routes.filter(f=>f.display!=null)" v-if="route.meta.requiresAuth==false ||(route.meta.requiresAuth==user.isAuthentificated)">
+                        <li v-for="route in routes.filter(f=>f.display!=null)" v-if="route.meta.requiresAuth==false ||(route.meta.requiresAuth == true && user != null)">
                             <router-link :to="route.path">
                                 <span :class="route.style"></span> {{ route.display }}
                             </router-link>
@@ -73,8 +73,11 @@ export default {
 </script>
 
 <style>
-    .navbar-right{
-        margin-right:30px;
+    .main-nav{
+    z-index:10;
+    }
+    .navbar-right {
+        margin-right: 30px;
     }
 
 .slide-enter-active, .slide-leave-active {

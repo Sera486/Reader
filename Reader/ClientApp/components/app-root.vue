@@ -27,6 +27,8 @@
     import LoadingWheel from './loading-wheel'
     import TableOfContent from './table-of-content'
     import UserLibraryPage from './user-library-page'
+    import BookCatalog from './book-catalog'
+    import BookSettings from './book-settings'
 
     Vue.component('home-page', HomePage);
     Vue.component('library-page', LibraryPage);
@@ -40,6 +42,8 @@
     Vue.component('loading-wheel', LoadingWheel);
     Vue.component('table-of-content', TableOfContent);
     Vue.component('user-library-page', UserLibraryPage);
+    Vue.component('book-catalog', BookCatalog);
+    Vue.component('book-settings', BookSettings);
 
     Vue.directive('title', {
         inserted: (el, binding) => document.title = binding.value,
@@ -50,7 +54,7 @@
         data() {
             return {
                 modalVisible: false,
-                currentModal:'login',
+                currentModal: 'login',
             }
         },
 
