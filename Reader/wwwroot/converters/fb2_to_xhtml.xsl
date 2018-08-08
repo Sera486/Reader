@@ -35,13 +35,6 @@
                     <xsl:call-template name="image"/>
                 </xsl:for-each>
 
-                <xsl:for-each select="fb:description/fb:title-info/fb:annotation">
-
-                    <div>
-                        <xsl:call-template name="annotation"/>
-                    </div>
-                    <hr/>
-                </xsl:for-each>
                 <!-- BUILD TOC -->
                 <ul>
                     <xsl:apply-templates select="fb:body" mode="toc"/>
