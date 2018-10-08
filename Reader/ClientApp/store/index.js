@@ -5,6 +5,7 @@ import api from 'api'
 import auth from './auth'
 import mutations from './mutations'
 import * as actions from './actions'
+import { FontFamily } from '../store/enums'
 //import * as getters from './getters'
 
 Vue.use(Vuex);
@@ -15,7 +16,7 @@ const state = {
     user: null,
     bookSettings: {
         fontSize: 18,
-        fontFamily: "Verdana,sans-serif",
+        fontFamily: FontFamily.Verdana,
         lineHeight: "1",
         theme: "white",
         textAlign: "justify"

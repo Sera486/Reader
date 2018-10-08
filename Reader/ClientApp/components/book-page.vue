@@ -3,7 +3,10 @@
         <loading-wheel v-bind:loading="!htmlBook"></loading-wheel>
         <div v-html="htmlBook"
              v-bind:class="['book-container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2', getTheme()]" 
-             v-bind:style="{fontFamily:bookSettings.fontFamily, textAlign:bookSettings.textAlign, fontSize:bookSettings.fontSize+'px', lineHeight:bookSettings.lineHeight}">
+             v-bind:style="{fontFamily:bookSettings.fontFamily,
+                            textAlign:bookSettings.textAlign,
+                            fontSize:bookSettings.fontSize+'px',
+                            lineHeight:bookSettings.lineHeight}">
         </div>
         <book-settings></book-settings>
     </div>
@@ -13,7 +16,8 @@
     import axios from 'axios'
     import { getBook } from '../store/api'
     import { mapState, mapMutations } from 'vuex'
-import bookSettingsVue from './book-settings.vue';
+    import bookSettingsVue from './book-settings.vue';
+    import { Theme } from '../store/enums'
 
     export default {
         data() {
@@ -31,19 +35,19 @@ import bookSettingsVue from './book-settings.vue';
             getTheme() {
                 let elems;
                 switch (this.bookSettings.theme) {
-                    case 'white':
+                    case Theme.White:
                         elems = document.getElementsByClassName('row');
                         for (var i = 0; i < elems.length; i++) {
                             elems[i].style.backgroundColor = 'white';
                         }
                         return 'theme-white'
-                    case 'sepia':
+                    case Theme.Sepia:
                         elems = document.getElementsByClassName('row');
                         for (var i = 0; i < elems.length; i++) {
                             elems[i].style.backgroundColor = '#f5efdc';
                         }
                         return 'theme-sepia'
-                    case 'black':
+                    case Theme.Black:
                         elems = document.getElementsByClassName('row');
                         for (var i = 0; i < elems.length; i++) {
                             elems[i].style.backgroundColor = 'black';
@@ -65,7 +69,7 @@ import bookSettingsVue from './book-settings.vue';
     @import "../less/constants.less";
 
     .book-container {
-    box-shadow: 2px 0 7px rgba(0, 0, 0, 0.3);
+        box-shadow: 2px 0 7px rgba(0, 0, 0, 0.3);
         background-color: #FEFEFE;
         font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
         text-align: justify;

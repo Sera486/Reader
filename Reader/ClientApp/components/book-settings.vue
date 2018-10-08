@@ -4,58 +4,54 @@
         <transition name="fade">
             <div v-if="showSettings" class="settings-container">
                 <div class="dropdown dropdown_hidden dropdown_position-top-right">
-                    <div class="dropdown__tail"></div>
+                    <div class="tail"></div>
                     <div class="settings">
-                        <div class="settings__table settings__font-size">
-                            <div class="settings__cell settings__smaller" v-on:click="$store.commit(types.DECREASE_FONT_SIZE);">A-</div>
-                            <div class="settings__cell settings__bigger" v-on:click="$store.commit(types.INCREASE_FONT_SIZE);">A+</div>
+                        <div class="table font-size">
+                            <div class="cell smaller" v-on:click="$store.commit(types.DECREASE_FONT_SIZE);">A-</div>
+                            <div class="cell bigger" v-on:click="$store.commit(types.INCREASE_FONT_SIZE);">A+</div>
                         </div>
-                        <div class="settings__table settings__line-height">
-                            <div v-bind:class="[bookSettings.lineHeight=='0.9'?'settings__active':'', 'settings__cell']" v-on:click="$store.commit(types.SET_LINE_HEGHT, '0.9'); lineHeight=1;">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 48" class="settings__icon">
+                        <div class="table line-height">
+                            <div v-bind:class="[bookSettings.lineHeight == LineHeight.Small?'active':'', 'cell']" v-on:click="setLineHeight(LineHeight.Small)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 48" class="icon">
                                     <path d="M32 16h40v2H32zm0 4h40v2H32zm0 4h40v2H32z"></path>
                                 </svg>
                             </div>
-                            <div v-bind:class="[bookSettings.lineHeight=='1'?'settings__active':'', 'settings__cell']" v-on:click="$store.commit(types.SET_LINE_HEGHT, '1'); lineHeight=2;">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 48" class="settings__icon">
+                            <div v-bind:class="[bookSettings.lineHeight == LineHeight.Medium?'active':'', 'cell']" v-on:click="setLineHeight(LineHeight.Medium)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 48" class="icon">
                                     <path d="M32 16h40v2H32zm0 5h40v2H32zm0 5h40v2H32z"></path>
                                 </svg>
                             </div>
-                            <div v-bind:class="[bookSettings.lineHeight=='1.3'?'settings__active':'', 'settings__cell']" v-on:click="$store.commit(types.SET_LINE_HEGHT, '1.3'); lineHeight=3;">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 48" class="settings__icon">
+                            <div v-bind:class="[bookSettings.lineHeight == LineHeight.Big?'active':'', 'cell']" v-on:click="setLineHeight(LineHeight.Big)">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 48" class="icon">
                                     <path d="M32 16h40v2H32zm0 7h40v2H32zm0 7h40v2H32z"></path>
                                 </svg>
                             </div>
                         </div>
-                        <div class="settings__table settings__themes">
-                            <div v-bind:class="[bookSettings.theme=='white'?'settings__active':'', 'settings__cell', 'settings__cell_theme', 'settings__cell_theme-white']" v-on:click="$store.commit(types.SET_THEME, 'white'); theme=1;">
+                        <div class="table themes">
+                            <div v-bind:class="[bookSettings.theme == Theme.White?'active':'', 'cell', 'cell_theme', 'cell_theme-white']" v-on:click="setTheme(Theme.White)">
                                 <span>White</span>
                             </div>
-                            <div v-bind:class="[bookSettings.theme=='sepia'?'settings__active':'', 'settings__cell', 'settings__cell_theme', 'settings__cell_theme-sepia']" v-on:click="$store.commit(types.SET_THEME, 'sepia'); theme=2;">
+                            <div v-bind:class="[bookSettings.theme == Theme.Sepia?'active':'', 'cell', 'cell_theme', 'cell_theme-sepia']" v-on:click="setTheme(Theme.Sepia)">
                                 <span>Sepia</span>
                             </div>
-                            <div v-bind:class="[bookSettings.theme=='black'?'settings__active':'', 'settings__cell', 'settings__cell_theme', 'settings__cell_theme-black']" v-on:click="$store.commit(types.SET_THEME, 'black'); theme=3;">
+                            <div v-bind:class="[bookSettings.theme == Theme.Black?'active':'', 'cell', 'cell_theme', 'cell_theme-black']" v-on:click="setTheme(Theme.Black)">
                                 <span>Black</span>
                             </div>
-                        </div><div class="settings__table settings__alignment">
-                            <div class="settings__cell">
+                        </div><div class="table alignment">
+                            <div class="cell">
                                 <span>Alignment</span>
                             </div>
-                            <div v-bind:class="[bookSettings.textAlign=='left'?'settings__active':'', 'settings__cell', 'settings__cell_right']" v-on:click="$store.commit(types.SET_ALIGNMENT, 'left'); alignment=1;">
-                                <span class="settings__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h12v2H4zm0 4h16v2H4zm0 4h12v2H4z"></path></svg></span>
+                            <div v-bind:class="[bookSettings.textAlign=='left'?'active':'', 'cell', 'cell_right']" v-on:click="$store.commit(types.SET_ALIGNMENT, 'left');">
+                                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h12v2H4zm0 4h16v2H4zm0 4h12v2H4z"></path></svg></span>
                             </div>
-                            <div v-bind:class="[bookSettings.textAlign=='justify'?'settings__active':'', 'settings__cell', 'settings__cell_right']" v-on:click="$store.commit(types.SET_ALIGNMENT, 'justify'); alignment=2;">
-                                <span class="settings__icon" style="margin-right:20px">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h16v2H4z"></path>
-                                    </svg>
-                                </span>
+                            <div v-bind:class="[bookSettings.textAlign=='justify'?'active':'', 'cell', 'cell_right']" v-on:click="$store.commit(types.SET_ALIGNMENT, 'justify');">
+                                <span class="icon" style="margin-right:20px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h16v2H4z"></path></svg></span>
                             </div>
                         </div>
                         <div>
-                            <div v-bind:class="[bookSettings.fontFamily=='Times New Roman,serif'?'settings__active':'', 'settings__font', 'settings__font_times']" v-on:click="$store.commit(types.SET_FONT_FAMILY, 'Times New Roman,serif'); fontFamily=1;">Times</div>
-                            <div v-bind:class="[bookSettings.fontFamily=='Arial,sans-serif'?'settings__active':'', 'settings__font', 'settings__font_arial']" v-on:click="$store.commit(types.SET_FONT_FAMILY, 'Arial,sans-serif'); fontFamily=2;">Arial</div>
-                            <div v-bind:class="[bookSettings.fontFamily=='Verdana,sans-serif'?'settings__active':'', 'settings__font', 'settings__font_verdana']" v-on:click="$store.commit(types.SET_FONT_FAMILY, 'Verdana,sans-serif'); fontFamily=3;">Verdana</div>
+                            <div v-bind:class="[bookSettings.fontFamily == FontFamily.Times ? 'active':'', 'font', 'font_times']" v-on:click="setFont(FontFamily.Times)">Times</div>
+                            <div v-bind:class="[bookSettings.fontFamily == FontFamily.Arial ? 'active':'', 'font', 'font_arial']" v-on:click="setFont(FontFamily.Arial)">Arial</div>
+                            <div v-bind:class="[bookSettings.fontFamily == FontFamily.Verdana ? 'active':'', 'font', 'font_verdana']" v-on:click="setFont(FontFamily.Verdana)">Verdana</div>
                         </div>
                     </div>
                 </div>
@@ -67,35 +63,48 @@
 <script>
     import * as types from '../store/mutation-types'
     import { mapState } from 'vuex'
+    import { FontFamily, LineHeight, Theme } from '../store/enums'
 
     export default {
         data() {
             return {
                 showSettings: false,
                 types: types,
-                lineHeight: 2,
-                alignment: 2,
-                fontFamily: 3,
-                theme:1,
+                FontFamily: FontFamily,
+                LineHeight: LineHeight,
+                Theme: Theme,
             }
         },
+        methods: {
+            setFont(fontFamily) {
+                this.$store.commit(types.SET_FONT_FAMILY, fontFamily);
+            },
 
-    computed: {
-    ...mapState([
-    'bookSettings'
-    ])
-    },
+            setLineHeight(lineHeight) {
+                this.$store.commit(types.SET_LINE_HEGHT, lineHeight); 
+            },
 
+            setTheme(theme) {
+                this.$store.commit(types.SET_THEME, theme);
+            },
+        },
+        computed: {
+        ...mapState([
+                'bookSettings'
+            ])
+        },
     }
 </script>
 
 <style lang="less" scoped>
     @import "../less/constants.less";
     @button-right-position: 30px;
+
     .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+
+    .fade-enter, .fade-leave-to {
     opacity: 0;
     }
 
@@ -123,23 +132,23 @@
         will-change: transform;
     }
 
-    .dropdown__tail {
-        position: absolute;
-        top: -30px;
-        right: 10px;
-        height: 30px;
-        width: 30px;
-        overflow: hidden;
-        &::before{
-    background-color:white;
-        content: "";
-        position: absolute;
-        width: 18px;
-        height: 18px;
-        top: 21px;
-        left: 6px;
-        box-shadow: 0 0 10px -1px rgba(0,0,0,.2);
-        transform: rotate(45deg);
+    .tail {
+    position: absolute;
+    top: -30px;
+    right: 10px;
+    height: 30px;
+    width: 30px;
+    overflow: hidden;
+        &::before {
+            background-color:white;
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            top: 21px;
+            left: 6px;
+            box-shadow: 0 0 10px -1px rgba(0,0,0,.2);
+            transform: rotate(45deg);
         }
     }
 
@@ -148,23 +157,22 @@
         color: #9a938d;
     }
 
-    .settings__table {
+    .table {
+        margin:0px;
         display: table;
         width: 100%;
     }
 
-    .settings__cell {
+    .cell {
         font-size: 14px;
         display: table-cell;
         height: 48px;
         text-align: center;
         vertical-align: middle;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        cursor: pointer;
+        cursor:pointer;
     }
 
-    .settings__icon {
+    .icon {
         display: inline-block;
         vertical-align: top;
         fill: #9a938d;
@@ -172,102 +180,84 @@
         height: 24px;
     }
 
-    .settings__font-size {
+    .font-size {
         border-bottom: 1px solid #efedec;
+        .cell{
+            font-weight: 700;
+            width: 50%;
+            &:hover{
+                color: #4264fd;
+            }
+            .bigger {
+                font-size: 24px;
+                border-left: 1px solid #efedec;
+            }
+        }
     }
 
-    .settings__bigger, .settings__smaller {
-        font-weight: 700;
-        width: 50%;
-    }
-
-    .settings__bigger {
-        font-size: 24px;
-        border-left: 1px solid #efedec;
-    }
-
-    .settings__line-height {
+    .line-height {
         margin-top: 8px;
         border-bottom: 1px solid #efedec;
+        .cell {
+            width: 104px;
+        }
+        .icon {
+            width: 104px;
+            height: 48px;
+        }
     }
 
-    .settings__themes {
+    .themes {
         border-bottom: 1px solid #efedec;
     }
 
-    .settings__line-height .settings__cell {
-        width: 104px;
-    }
-
-    .settings__line-height .settings__icon {
-        width: 104px;
-        height: 48px;
-    }
-
-    .settings__cell_theme.settings__active span {
+    .cell_theme.active span {
         border-color: #4264fd;
     }
 
-    .settings__alignment .settings__cell_right {
-        width: 56px;
+    .cell_theme span {
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+        width: 72px;
+        border-radius: 100px;
+        border: 1px solid;
     }
 
-    .settings__alignment .settings__cell, .settings__hyphens .settings__cell, .settings__mode .settings__cell {
-        text-align: left;
-        padding-left: 16px;
-        cursor: default;
+    .cell_theme-white span {
+        background-color: #FEFEFE;
+        border-color: #333333;
+        color: #333333;
     }
 
-    .settings__alignment .settings__cell_right, .settings__hyphens .settings__cell_right, .settings__mode .settings__cell_right {
-        text-align: right;
-        cursor: pointer;
-        padding-left: 0;
+    .cell_theme-sepia span {
+        background-color: #f5efdc;
+        border-color: #dcd1c3;
+        color: #6e422f;
     }
 
-    .settings__alignment {
+    .cell_theme-black span {
+        background-color: #000;
+        border-color: #49423f;
+        color: #bababa;
+    }
+
+    .alignment {
         color: #000;
+        .cell_right {
+            width: 56px;
+            text-align: right;
+            cursor: pointer;
+            padding-left: 0;
+        }
+        .cell {
+            text-align: left;
+            padding-left: 16px;
+            cursor: default;
+        }
     }
 
-    .settings__cell_theme span {
-
-    display: inline-block;
-    height: 32px;
-    line-height: 32px;
-    width: 72px;
-    border-radius: 100px;
-    border: 1px solid;
-    border-top-color: currentcolor;
-    border-right-color: currentcolor;
-    border-bottom-color: currentcolor;
-    border-left-color: currentcolor;
-
-    }
-    .settings__cell_theme-sepia span {
-
-    background: #f5efdc;
-    border-color: #dcd1c3;
-    color: #6e422f;
-
-    }
-    .settings__cell_theme-black span {
-    background: #000;
-    border-color: #49423f;
-    color: #bababa;
-    }
-
-    .settings__font_times {
-        font-family: Times New Roman,serif;
-    }
-
-    .settings__font_arial {
-        font-family: Arial,sans-serif;
-    }
-
-    .settings__font_verdana {
-        font-family: Verdana,sans-serif;
-    }
-
-    .settings__font {
+    .font {
         display: block;
         height: 48px;
         font-size: 18px;
@@ -278,11 +268,22 @@
         cursor: pointer;
     }
 
-    .settings__active {
-    color: #4264fd;
+    .font_times {
+        font-family: Times New Roman,serif;
     }
 
-    .settings__active .settings__icon {
-    fill: #4264fd;
+    .font_arial {
+        font-family: Arial,sans-serif;
+    }
+
+    .font_verdana {
+        font-family: Verdana,sans-serif;
+    }
+
+    .active {
+        color: #4264fd;
+        .icon {
+            fill: #4264fd;
+        }
     }
 </style>
